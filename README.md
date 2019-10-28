@@ -1,1 +1,1 @@
-# ci-playground
+# CI-playground

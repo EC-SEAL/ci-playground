@@ -11,13 +11,15 @@ jobs:
         - mvn test
 
     - stage: Release
-      if: type != pull_request AND(branch = master OR branch = develop)
+      #if: type != pull_request AND(branch = master OR branch = develop)
       language: java
       before_script:
       - 'if [ "${TRAVIS_BRANCH}" = "develop" ]; then
         export CONTAINER_TAG=develop;
         elif [ "${TRAVIS_BRANCH}" = "master" ]; then
         export CONTAINER_TAG=latest;
+        elif [ "${TRAVIS_BRANCH}" = "mvj66-patch-1" ]; then
+        export CONTAINER_TAG=test1;
         fi'
 
       script:

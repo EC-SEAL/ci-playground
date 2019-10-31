@@ -1,15 +1,28 @@
 language: java
 
-    before_script:
-    - 'if [ "${TRAVIS_BRANCH}" = "develop" ]; then
-      export CONTAINER_TAG=develop;
-      elif [ "${TRAVIS_BRANCH}" = "master" ]; then
-      export CONTAINER_TAG=latest;
-      elif [ "${TRAVIS_BRANCH}" = "mvj66-patch-1" ]; then
-      export CONTAINER_TAG=test1;
-      fi'
+stages:
+  - Test
+  - Release
 
-    script:
-      - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-      - docker build -t mvjatos/seal-test:${CONTAINER_TAG} .
-      - docker push mvjatos/seal-test:${CONTAINER_TAG}
+jobs:
+  include:
+    - stage : Test
+      script:
+        - mvn test
+
+    - stage: Release
+      #if: type != pull_request AND(branch = master OR branch = develop)
+      language: java
+      before_script:
+      - 'if [ "${TRAVIS_BRANCH}" = "develop" ]; then
+        export CONTAINER_TAG=develop;
+        elif [ "${TRAVIS_BRANCH}" = "master" ]; then
+        export CONTAINER_TAG=latest;
+        elif [ "${TRAVIS_BRANCH}" = "mvj66-patch-1" ]; then
+        export CONTAINER_TAG=test;
+        fi'
+
+      script:
+        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+        - docker build -t mvjatos/seal-test:${CONTAINER_TAG} .
+        - docker push mvjatos/seal-test:${CONTAINER_TAG}

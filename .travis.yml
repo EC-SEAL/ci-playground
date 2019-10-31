@@ -19,7 +19,7 @@ jobs:
         elif [ "${TRAVIS_BRANCH}" = "master" ]; then
         export CONTAINER_TAG=latest;
         elif [ "${TRAVIS_BRANCH}" = "mvj66-patch-1" ]; then
-        export CONTAINER_TAG=test;
+        export CONTAINER_TAG=test1;
         fi'
 
       script:
